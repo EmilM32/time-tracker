@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:time_tracker/components/info_dialog.dart';
 import 'package:time_tracker/screens/login_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -69,11 +70,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       Navigator.pushNamed(context, LoginScreen.id);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        showInfoDialog('The password provided is too weak.');
+        showInfoDialog(AppLocalizations.of(context)!.passwordTooWeak);
       } else if (e.code == 'email-already-in-use') {
-        showInfoDialog('The account already exists for that email.');
+        showInfoDialog(AppLocalizations.of(context)!.accountExists);
       } else if (e.code == 'invalid-email') {
-        showInfoDialog('The email address is not valid.');
+        showInfoDialog(AppLocalizations.of(context)!.wrongEmail);
       }
     } catch (e) {
       throw Exception(e);
@@ -108,7 +109,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 },
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  labelText: 'Email',
+                  labelText: AppLocalizations.of(context)!.email,
                   icon: const Icon(Icons.email),
                   errorText: emailNotSet ? 'required' : null,
                 ),
@@ -123,7 +124,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 },
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  labelText: 'Password',
+                  labelText: AppLocalizations.of(context)!.password,
                   icon: const Icon(Icons.password),
                   errorText: passwordNotSet ? 'required' : null,
                 ),
@@ -138,7 +139,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 },
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  labelText: 'Confirm password',
+                  labelText: AppLocalizations.of(context)!.confirmPassword,
                   icon: const Icon(Icons.password),
                   errorText: confirmPasswordNotSet ? 'required' : null,
                 ),
@@ -159,7 +160,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ? const CircularProgressIndicator(
                       color: Colors.white,
                     )
-                    : const Text('Sign Up'),
+                    : Text(AppLocalizations.of(context)!.signUp),
               ),
             ],
           ),

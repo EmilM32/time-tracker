@@ -4,6 +4,8 @@ import 'package:time_tracker/screens/login_screen.dart';
 import 'package:time_tracker/screens/registration_screen.dart';
 import 'package:time_tracker/screens/dashboard_screen.dart';
 import 'firebase_options.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +27,16 @@ class TimeTracker extends StatelessWidget {
         RegistrationScreen.id: (context) => const RegistrationScreen(),
         DashboardScreen.id: (context) => const DashboardScreen(),
       },
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('pl'),
+      ],
     );
   }
 }

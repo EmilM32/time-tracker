@@ -1,0 +1,11 @@
+{
+    "password": "Hasło",
+    "confirmPassword": "Powtórz hasło",
+    "email": "Email",
+    "login": "Zaloguj się",
+    "signUp": "Zarejestruj się",
+    "wrongEmail": "Nieprawidłowy email",
+    "wrongPassword": "Nieprawidłowe hasło",
+    "passwordTooWeak": "Wprowadzona hasło jest za słabe",
+    "accountExists": "Konto już istnieje"
+}

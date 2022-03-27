@@ -3,6 +3,7 @@ import 'package:time_tracker/screens/registration_screen.dart';
 import 'package:time_tracker/components/info_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:time_tracker/screens/dashboard_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -38,9 +39,9 @@ class _LoginScreenState extends State<LoginScreen> {
         );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        showInfoDialog('No user found for that email.');
+        showInfoDialog(AppLocalizations.of(context)!.wrongEmail);
       } else if (e.code == 'wrong-password') {
-        showInfoDialog('Wrong password provided for that user.');
+        showInfoDialog(AppLocalizations.of(context)!.wrongPassword);
       }
     }
   }
@@ -76,10 +77,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     email = value;
                   });
                 },
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Email',
-                  icon: Icon(Icons.email),
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: AppLocalizations.of(context)!.email,
+                  icon: const Icon(Icons.email),
                 ),
               ),
               const SizedBox(
@@ -92,10 +93,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     password = value;
                   });
                 },
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                  icon: Icon(Icons.password),
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: AppLocalizations.of(context)!.password,
+                  icon: const Icon(Icons.password),
                 ),
               ),
               const SizedBox(
@@ -110,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         logIn();
                       }
                     : null,
-                child: const Text('Login'),
+                child: Text(AppLocalizations.of(context)!.login),
               ),
               TextButton(
                 style: TextButton.styleFrom(
@@ -119,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () {
                   Navigator.pushNamed(context, RegistrationScreen.id);
                 },
-                child: const Text('Sign Up'),
+                child: Text(AppLocalizations.of(context)!.signUp),
               ),
             ],
           ),
