@@ -46,7 +46,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
       if (password.isNotEmpty && password != confirmPassword) {
         passwordsDoNotMatch = true;
-        showInfoDialog('Passwords do not match');
+        showInfoDialog(AppLocalizations.of(context)!.passwordsDoNotMatch);
       } else {
         passwordsDoNotMatch = false;
       }
