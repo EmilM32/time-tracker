@@ -13,50 +13,12 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final GlobalKey<FormState> _formKeySignUp = GlobalKey<FormState>();
   String email = '';
   String password = '';
   String confirmPassword = '';
 
-  bool emailNotSet = false;
-  bool passwordNotSet = false;
-  bool confirmPasswordNotSet = false;
-  bool passwordsDoNotMatch = false;
-
   bool isLoading = false;
-
-  bool checkRequiredFields() {
-    setState(() {
-      if (email.isEmpty) {
-        emailNotSet = true;
-      } else {
-        emailNotSet = false;
-      }
-
-      if (password.isEmpty) {
-        passwordNotSet = true;
-      } else {
-        passwordNotSet = false;
-      }
-
-      if (confirmPassword.isEmpty) {
-        confirmPasswordNotSet = true;
-      } else {
-        confirmPasswordNotSet = false;
-      }
-
-      if (password.isNotEmpty && password != confirmPassword) {
-        passwordsDoNotMatch = true;
-        showInfoDialog(AppLocalizations.of(context)!.passwordsDoNotMatch);
-      } else {
-        passwordsDoNotMatch = false;
-      }
-    });
-
-    return !emailNotSet &&
-        !passwordNotSet &&
-        !confirmPasswordNotSet &&
-        !passwordsDoNotMatch;
-  }
 
   void createNewUser() async {
     try {
@@ -100,69 +62,90 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextField(
-                onChanged: (value) {
-                  email = value;
-                },
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText: AppLocalizations.of(context)!.email,
-                  icon: const Icon(Icons.email),
-                  errorText: emailNotSet ? 'required' : null,
+          child: Form(
+            key: _formKeySignUp,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextFormField(
+                  onChanged: (value) {
+                    email = value;
+                  },
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    labelText: AppLocalizations.of(context)!.email,
+                    icon: const Icon(Icons.email),
+                  ),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return AppLocalizations.of(context)!.required;
+                    }
+                    return null;
+                  },
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextField(
-                obscureText: true,
-                onChanged: (value) {
-                  password = value;
-                },
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText: AppLocalizations.of(context)!.password,
-                  icon: const Icon(Icons.password),
-                  errorText: passwordNotSet ? 'required' : null,
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextField(
-                obscureText: true,
-                onChanged: (value) {
-                  confirmPassword = value;
-                },
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  labelText: AppLocalizations.of(context)!.confirmPassword,
-                  icon: const Icon(Icons.password),
-                  errorText: confirmPasswordNotSet ? 'required' : null,
+                TextFormField(
+                  obscureText: true,
+                  onChanged: (value) {
+                    password = value;
+                  },
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    labelText: AppLocalizations.of(context)!.password,
+                    icon: const Icon(Icons.password),
+                  ),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return AppLocalizations.of(context)!.required;
+                    }
+                    return null;
+                  },
                 ),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(50),
+                const SizedBox(
+                  height: 20,
                 ),
-                onPressed: () {
-                  if (checkRequiredFields()) {
-                    createNewUser();
-                  }
-                },
-                child: (isLoading)
-                    ? const CircularProgressIndicator(
-                      color: Colors.white,
-                    )
-                    : Text(AppLocalizations.of(context)!.signUp),
-              ),
-            ],
+                TextFormField(
+                  obscureText: true,
+                  onChanged: (value) {
+                    confirmPassword = value;
+                  },
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    labelText: AppLocalizations.of(context)!.confirmPassword,
+                    icon: const Icon(Icons.password),
+                  ),
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return AppLocalizations.of(context)!.required;
+                    }
+                    if (value != password) {
+                      return AppLocalizations.of(context)!.passwordsDoNotMatch;
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50),
+                  ),
+                  onPressed: () {
+                    if (_formKeySignUp.currentState!.validate()) {
+                      createNewUser();
+                    }
+                  },
+                  child: (isLoading)
+                      ? const CircularProgressIndicator(
+                          color: Colors.white,
+                        )
+                      : Text(AppLocalizations.of(context)!.signUp),
+                ),
+              ],
+            ),
           ),
         ),
       ),

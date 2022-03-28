@@ -8,5 +8,6 @@
     "wrongPassword": "Nieprawidłowe hasło",
     "passwordTooWeak": "Wprowadzona hasło jest za słabe",
     "accountExists": "Konto już istnieje",
-    "passwordsDoNotMatch": "Hasła nie są takie same"
+    "passwordsDoNotMatch": "Hasła nie są takie same",
+    "required": "Pole wymagane"
 }

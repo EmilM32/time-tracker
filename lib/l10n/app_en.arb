@@ -8,5 +8,6 @@
     "wrongPassword": "Wrong password provided for that user",
     "passwordTooWeak": "The password provided is too weak",
     "accountExists": "The account already exists for that email",
-    "passwordsDoNotMatch": "Passwords do not match"
+    "passwordsDoNotMatch": "Passwords do not match",
+    "required": "Required"
 }
