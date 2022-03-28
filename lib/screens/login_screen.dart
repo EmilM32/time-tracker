@@ -4,6 +4,7 @@ import 'package:time_tracker/components/info_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:time_tracker/screens/dashboard_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:time_tracker/helpers/device_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -20,6 +21,8 @@ class _LoginScreenState extends State<LoginScreen> {
   String email = '';
   String password = '';
 
+  bool isLoading = false;
+
   void checkAuth() {
     auth.authStateChanges().listen((User? user) {
       if (user != null) {
@@ -30,12 +33,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void logIn() async {
     try {
+      setState(() {
+        isLoading = true;
+      });
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
     } on FirebaseAuthException catch (e) {
-      print(e);
       if (e.code == 'user-not-found') {
         showInfoDialog(AppLocalizations.of(context)!.wrongEmail);
       } else if (e.code == 'wrong-password') {
@@ -43,7 +48,12 @@ class _LoginScreenState extends State<LoginScreen> {
       } else if (e.code == 'invalid-email') {
         showInfoDialog(AppLocalizations.of(context)!.wrongEmail);
       }
+    } catch (e) {
+      throw Exception(e);
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   Future<void> showInfoDialog(String text) async {
@@ -67,79 +77,88 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: Colors.white,
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          print(constraints);
+          Screens deviceScreen = getDeviceScreen(constraints.maxWidth);
+          double? width = deviceScreen == Screens.mobile ? null : 500;
+
           return Center(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Form(
-                key: _formKeyLogin,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextFormField(
-                      onChanged: (value) {
-                        setState(() {
-                          email = value;
-                        });
-                      },
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        labelText: AppLocalizations.of(context)!.email,
-                        icon: const Icon(Icons.email),
+              child: SizedBox(
+                width: width,
+                child: Form(
+                  key: _formKeyLogin,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextFormField(
+                        onChanged: (value) {
+                          setState(() {
+                            email = value;
+                          });
+                        },
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          labelText: AppLocalizations.of(context)!.email,
+                          icon: const Icon(Icons.email),
+                        ),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return AppLocalizations.of(context)!.required;
+                          }
+                          return null;
+                        },
                       ),
-                      validator: (String? value) {
-                        if (value == null || value.isEmpty) {
-                          return AppLocalizations.of(context)!.required;
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      obscureText: true,
-                      onChanged: (value) {
-                        setState(() {
-                          password = value;
-                        });
-                      },
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        labelText: AppLocalizations.of(context)!.password,
-                        icon: const Icon(Icons.password),
+                      const SizedBox(
+                        height: 20,
                       ),
-                      validator: (String? value) {
-                        if (value == null || value.isEmpty) {
-                          return AppLocalizations.of(context)!.required;
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size.fromHeight(50),
+                      TextFormField(
+                        obscureText: true,
+                        onChanged: (value) {
+                          setState(() {
+                            password = value;
+                          });
+                        },
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          labelText: AppLocalizations.of(context)!.password,
+                          icon: const Icon(Icons.password),
+                        ),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return AppLocalizations.of(context)!.required;
+                          }
+                          return null;
+                        },
                       ),
-                      onPressed: () {
-                        if (_formKeyLogin.currentState!.validate()) {
-                          logIn();
-                        }
-                      },
-                      child: Text(AppLocalizations.of(context)!.login),
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        primary: Colors.black,
+                      const SizedBox(
+                        height: 40,
                       ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, RegistrationScreen.id);
-                      },
-                      child: Text(AppLocalizations.of(context)!.signUp),
-                    ),
-                  ],
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(50),
+                        ),
+                        onPressed: () {
+                          if (_formKeyLogin.currentState!.validate()) {
+                            logIn();
+                          }
+                        },
+                        child: (isLoading)
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                            : Text(AppLocalizations.of(context)!.login),
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          primary: Colors.black,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, RegistrationScreen.id);
+                        },
+                        child: Text(AppLocalizations.of(context)!.signUp),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
