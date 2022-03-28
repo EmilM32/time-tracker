@@ -4,6 +4,7 @@ import 'package:time_tracker/components/info_dialog.dart';
 import 'package:time_tracker/screens/login_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:time_tracker/helpers/device_screen.dart';
+import 'package:time_tracker/constants.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -63,11 +64,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           Screens deviceScreen = getDeviceScreen(constraints.maxWidth);
-          double? width = deviceScreen == Screens.mobile ? null : 500;
+          double? width = deviceScreen == Screens.mobile ? null : kFormMaxWidth;
 
           return Center(
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: kFormPadding,
               child: SizedBox(
                 width: width,
                 child: Form(
@@ -140,9 +141,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         height: 40,
                       ),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size.fromHeight(50),
-                        ),
+                        style: kLoadingButtonStyle,
                         onPressed: () {
                           if (_formKeySignUp.currentState!.validate()) {
                             createNewUser();
@@ -155,9 +154,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             : Text(AppLocalizations.of(context)!.signUp),
                       ),
                       TextButton(
-                        style: TextButton.styleFrom(
-                          primary: Colors.black,
-                        ),
+                        style: kSubTextStyle,
                         onPressed: () {
                           Navigator.pushNamed(context, LoginScreen.id);
                         },

@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:time_tracker/screens/dashboard_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:time_tracker/helpers/device_screen.dart';
+import 'package:time_tracker/constants.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -78,11 +79,11 @@ class _LoginScreenState extends State<LoginScreen> {
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           Screens deviceScreen = getDeviceScreen(constraints.maxWidth);
-          double? width = deviceScreen == Screens.mobile ? null : 500;
+          double? width = deviceScreen == Screens.mobile ? null : kFormMaxWidth;
 
           return Center(
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: kFormPadding,
               child: SizedBox(
                 width: width,
                 child: Form(
@@ -134,9 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 40,
                       ),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size.fromHeight(50),
-                        ),
+                        style: kLoadingButtonStyle,
                         onPressed: () {
                           if (_formKeyLogin.currentState!.validate()) {
                             logIn();
@@ -149,9 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             : Text(AppLocalizations.of(context)!.login),
                       ),
                       TextButton(
-                        style: TextButton.styleFrom(
-                          primary: Colors.black,
-                        ),
+                        style: kSubTextStyle,
                         onPressed: () {
                           Navigator.pushNamed(context, RegistrationScreen.id);
                         },
