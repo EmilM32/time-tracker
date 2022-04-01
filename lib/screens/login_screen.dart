@@ -98,7 +98,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
                         },
                         decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
+                          border: OutlineInputBorder(
+                            borderRadius: kBorderRounded,
+                          ),
                           labelText: AppLocalizations.of(context)!.email,
                           icon: const Icon(Icons.email),
                         ),
@@ -120,7 +122,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
                         },
                         decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
+                          border: OutlineInputBorder(
+                            borderRadius: kBorderRounded,
+                          ),
                           labelText: AppLocalizations.of(context)!.password,
                           icon: const Icon(Icons.password),
                         ),
