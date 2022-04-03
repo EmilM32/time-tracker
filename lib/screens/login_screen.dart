@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
           return Center(
             child: Padding(
-              padding: kFormPadding,
+              padding: kPagePadding,
               child: SizedBox(
                 width: width,
                 child: Form(

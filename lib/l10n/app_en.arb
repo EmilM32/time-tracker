@@ -9,5 +9,9 @@
     "passwordTooWeak": "The password provided is too weak",
     "accountExists": "The account already exists for that email",
     "passwordsDoNotMatch": "Passwords do not match",
-    "required": "Required"
+    "required": "Required",
+    "myProjects": "My Projects",
+    "projectName": "Project name",
+    "add": "Add",
+    "description": "Description"
 }

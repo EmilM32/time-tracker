@@ -9,5 +9,9 @@
     "passwordTooWeak": "Wprowadzona hasło jest za słabe",
     "accountExists": "Konto już istnieje",
     "passwordsDoNotMatch": "Hasła nie są takie same",
-    "required": "Pole wymagane"
+    "required": "Pole wymagane",
+    "myProjects": "Moje projekty",
+    "projectName": "Nazwa projektu",
+    "add": "Dodaj",
+    "description": "Opis"
 }

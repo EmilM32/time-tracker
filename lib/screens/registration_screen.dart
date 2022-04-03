@@ -68,7 +68,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
           return Center(
             child: Padding(
-              padding: kFormPadding,
+              padding: kPagePadding,
               child: SizedBox(
                 width: width,
                 child: Form(

@@ -17,6 +17,6 @@ ButtonStyle kSubTextStyle = TextButton.styleFrom(
 
 BorderRadius kBorderRounded = BorderRadius.circular(20.0);
 
-EdgeInsets kFormPadding = const EdgeInsets.all(20.0);
+EdgeInsets kPagePadding = const EdgeInsets.all(20.0);
 
 double kFormMaxWidth = 500;
